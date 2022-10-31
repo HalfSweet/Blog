@@ -57,5 +57,5 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.REMOTE_PWD }}
           port: ${{ secrets.REMOTE_PORT }}
-          local: dist/
+          local: /home/runner/work/Blog/Blog/dist/
           remote: "/root/BlogNginx/"
