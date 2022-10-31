@@ -51,11 +51,11 @@ jobs:
 
       # 上传打包资源
       - name: SSH Deploy
-        uses: easingthemes/ssh-deploy@v2.1.6
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: '-avz --delete'
-          SOURCE: 'dist/'
-          REMOTE_HOST: ${{ secrets.SERVER_HOST }}
-          REMOTE_USER: ${{ secrets.USER_NAME }}
-          TARGET: /root/BlogNginx/ # 服务器目标路径
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.REMOTE_PWD }}
+          port: ${{ secrets.REMOTE_PORT }}
+          local: dist/
+          remote: "/root/BlogNginx/"
