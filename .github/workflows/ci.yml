@@ -53,9 +53,9 @@ jobs:
       - name: SSH Deploy
         uses: easingthemes/ssh-deploy@v2.1.6
         env:
-          SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: '-avz --delete'
           SOURCE: 'dist/'
-          REMOTE_HOST: ${{ env.SERVER_HOST }}
-          REMOTE_USER: ${{ env.USER_NAME }}
+          REMOTE_HOST: ${{ secrets.SERVER_HOST }}
+          REMOTE_USER: ${{ secrets.USER_NAME }}
           TARGET: /root/BlogNginx/ # 服务器目标路径
