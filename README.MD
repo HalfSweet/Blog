@@ -12,4 +12,4 @@
 
 [CC-BY-SA-4.0](LICENSE)
 
-Copyright (c) 2019-present HalfSweet
+Copyright (c) 2022-present HalfSweet
