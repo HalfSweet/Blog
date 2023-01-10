@@ -48,10 +48,11 @@ conda info -e
 ![](./.vuepress/../../.vuepress/public/conda/Screenshots3.png)
 发现新建的环境已经切换到了`D:\conda\`目录下。
 
-## 迁移之前的环境
+## 迁移之前的环境（以下方式任选其一）
+### 直接使用create的clone参数
 直接进行克隆，我们采用之前的`novelAI`环境进行示例
 ```cmd
-cconda create -p  D:\conda\envs\novelAI\ --clone  C:\Users\HalfSweet\.conda\envs\novelAI\
+conda create -p  D:\conda\envs\novelAI\ --clone  C:\Users\HalfSweet\.conda\envs\novelAI\
 ```
 注意，，接`-p`参数的是新的环境，也就是我们之前添加的那个；而`--clone`参数后方的则是原环境。
 
@@ -64,3 +65,20 @@ conda info -e
 conda remove -p C:\Users\HalfSweet\.conda\envs\novelAI\ --all
 ```
 命令删除之前原目录的环境即可完成迁移。
+
+### 使用conda pack
+#### 0x01 安装conda pack
+```cmd
+conda install conda-pack
+```
+#### 0x02 将原环境进行打包
+```cmd
+conda pack -n envs_name
+```
+这里的envs_name替换为你想要迁移的环境的名称。打包完成后，将会在原目录下生成一个`envs_name.tar.gz`的文件。
+#### 0x03 更新新环境
+将生成的`envs_name.tar.gz`文件移动到新的环境目录下，解压成文件夹即可。使用`conda info -e`命令查看，发现已经出现了这个环境。
+#### 0x04 删除原环境
+```cmd
+conda remove -p 原环境的目录 --all
+```
