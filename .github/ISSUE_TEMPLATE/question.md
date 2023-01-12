@@ -22,11 +22,5 @@ labels: 提问
 
 ## 问题截图（可选）
 <!--![](xxx.jpg)-->
-
-## 依赖版本（可选）
-- node.js: <!--v1x.x.x-->
-- @vuepress: <!--v1.x.x-->
-- vuepress-theme-vdoing: <!--v1.x.x-->
-
 ## 补充说明（可选）
 <!--xxxx-->
