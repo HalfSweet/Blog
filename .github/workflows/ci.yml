@@ -59,8 +59,9 @@ jobs:
           port: ${{ secrets.REMOTE_PORT }}
           command: |
             cd ~/Blog
+            git git pull origin gh-pages
             git checkout gh-pages
-            git pull
+            
         # uses: garygrossgarten/github-action-scp@release
         # with:
         #   host: ${{ secrets.REMOTE_HOST }}
