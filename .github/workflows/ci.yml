@@ -60,7 +60,7 @@ jobs:
           command: |
             cd ~/Blog
             git checkout gh-pages
-            git pull origin gh-pages
+            git pull origin gh-pages --allow-unrelated-histories
         # uses: garygrossgarten/github-action-scp@release
         # with:
         #   host: ${{ secrets.REMOTE_HOST }}
