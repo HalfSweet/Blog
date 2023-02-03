@@ -58,7 +58,7 @@ jobs:
           password: ${{ secrets.REMOTE_PWD }}
           port: ${{ secrets.REMOTE_PORT }}
           command: |
-            cd ~/Blog
+            cd Blog
             git checkout gh-pages
             git pull origin gh-pages --allow-unrelated-histories
         # uses: garygrossgarten/github-action-scp@release
