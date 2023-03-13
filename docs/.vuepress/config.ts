@@ -141,7 +141,7 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
     footer: {
       createYear: 2022, // 博客创建年份
       copyrightInfo:
-        'HalfSweet | <a href="https://github.com/HalfSweet/Blog/blob/main/LICENSE" target="_blank">CC-BY-SA-4.0 License</a>', // 博客版权信息、备案信息等，支持a标签或换行标签</br>
+        'HalfSweet | <a href="https://github.com/HalfSweet/Blog/blob/main/LICENSE" target="_blank">CC-BY-SA-4.0 License</a> <br> <a href="https://beian.miit.gov.cn/#/Integrated/index">黔ICP备2021007368号</a> </br>', // 博客版权信息、备案信息等，支持a标签或换行标签</br>
     },
 
     // 扩展自动生成frontmatter。（当md文件的frontmatter不存在相应的字段时将自动添加。不会覆盖已有的数据。）
