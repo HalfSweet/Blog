@@ -50,22 +50,9 @@ jobs:
       # 只提交到github pages也可以使用github-pages-deploy-action，详见: https://github.com/JamesIves/github-pages-deploy-action
 
       # 上传打包资源
-      - name: SSH Deploy
-        # uses: garygrossgarten/github-action-ssh@release #放弃了放弃了，腾讯云连不上GitHub，还是换成SCP把文件拉过去好了
-        # with:
-        #   host: ${{ secrets.REMOTE_HOST }}
-        #   username: ${{ secrets.REMOTE_USER }}
-        #   password: ${{ secrets.REMOTE_PWD }}
-        #   port: ${{ secrets.REMOTE_PORT }}
-        #   command: |
-        #     cd Blog
-        #     git checkout gh-pages
-        #     git pull origin gh-pages
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          password: ${{ secrets.REMOTE_PWD }}
-          port: ${{ secrets.REMOTE_PORT }}
-          local: docs/.vuepress/dist
-          remote: "/root/BlogNginx/"
+      - name: Publish assets
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openssh-client
+          sudo apt-get install -y sshpass
+          sshpass -p ${{secrets.SSH_PASSWORD}} ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "cd Blog;git pull"
