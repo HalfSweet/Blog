@@ -60,4 +60,4 @@ jobs:
           port: ${{ secrets.REMOTE_PORT }}
           script: |
             cd Blog
-            git pull
+            git pull -f
