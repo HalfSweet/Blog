@@ -51,8 +51,12 @@ jobs:
 
       # 上传打包资源
       - name: Publish assets
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openssh-client
-          sudo apt-get install -y sshpass
-          sshpass -p ${{secrets.SSH_PASSWORD}} ssh ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} "cd Blog;git pull"
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd Blog
+            git pull
