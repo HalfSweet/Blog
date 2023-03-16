@@ -54,10 +54,10 @@ jobs:
       - name: Publish assets
         uses: appleboy/ssh-action@v0.1.8
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.REMOTE_PWD }}
+          port: ${{ secrets.REMOTE_PORT }}
           script: |
             cd Blog
             git pull
