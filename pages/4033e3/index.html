@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>HSEPD-Arduino驱动库的实现思路 | HalfSweet&#39;s blog</title>
+    <meta name="generator" content="VuePress 1.9.5">
+    <link rel="icon" href="/img/favicon.ico">
+    <meta name="description" content="半糖的个人博客，记录与探索每一个新奇的问题 ">
+    <meta name="keywords" content="半糖,HalfSweet,嵌入式,Arduino,ESP32,ESP8266,EPD,EPaper,墨水屏,学习,STM32,RTOS,git,github,markdown">
+    <meta name="baidu-site-verification" content="7F55weZDDc">
+    <meta name="theme-color" content="#11a8cd">
+    
+    <link rel="preload" href="/assets/css/0.styles.1c528986.css" as="style"><link rel="preload" href="/assets/js/app.1afa087c.js" as="script"><link rel="preload" href="/assets/js/2.eb2c3b01.js" as="script"><link rel="preload" href="/assets/js/17.0ae85586.js" as="script"><link rel="prefetch" href="/assets/js/10.6077db60.js"><link rel="prefetch" href="/assets/js/11.5bfc6433.js"><link rel="prefetch" href="/assets/js/12.53470d39.js"><link rel="prefetch" href="/assets/js/13.2d9b5da1.js"><link rel="prefetch" href="/assets/js/14.1d038b19.js"><link rel="prefetch" href="/assets/js/15.a7262586.js"><link rel="prefetch" href="/assets/js/16.6e00bf79.js"><link rel="prefetch" href="/assets/js/18.c560366f.js"><link rel="prefetch" href="/assets/js/19.e3290607.js"><link rel="prefetch" href="/assets/js/20.685a254a.js"><link rel="prefetch" href="/assets/js/21.4fcd47e8.js"><link rel="prefetch" href="/assets/js/22.66a3af35.js"><link rel="prefetch" href="/assets/js/3.08d8fe6e.js"><link rel="prefetch" href="/assets/js/4.44abc4a8.js"><link rel="prefetch" href="/assets/js/5.929a591a.js"><link rel="prefetch" href="/assets/js/6.d0889f04.js"><link rel="prefetch" href="/assets/js/7.c07ebf02.js"><link rel="prefetch" href="/assets/js/8.1a7a341e.js"><link rel="prefetch" href="/assets/js/9.c9677956.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.1c528986.css">
+  </head>
+  <body class="theme-mode-light">
+    <div id="app" data-server-rendered="true"><div class="theme-container have-rightmenu have-body-img"><header class="navbar blur"><div title="目录" class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/img/LOGO.png" alt="HalfSweet's blog" class="logo"> <span class="site-name can-hide">HalfSweet's blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><a href="/posts/" class="nav-link">技术文章</a></div><div class="nav-item"><a href="/tags/" class="nav-link">标签</a></div><div class="nav-item"><a href="/categories/" class="nav-link">分类</a></div><div class="nav-item"><a href="/friends/" class="nav-link">友链</a></div><div class="nav-item"><a href="/about/" class="nav-link">关于</a></div> <a href="https://github.com/HalfSweet/Blog" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar-hover-trigger"></div> <aside class="sidebar" style="display:none;"><div class="blogger"><img src="img/Headshot.jpg"> <div class="blogger-info"><h3>HalfSweet</h3> <span>这里是半糖</span></div></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><a href="/posts/" class="nav-link">技术文章</a></div><div class="nav-item"><a href="/tags/" class="nav-link">标签</a></div><div class="nav-item"><a href="/categories/" class="nav-link">分类</a></div><div class="nav-item"><a href="/friends/" class="nav-link">友链</a></div><div class="nav-item"><a href="/about/" class="nav-link">关于</a></div> <a href="https://github.com/HalfSweet/Blog" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>HSEPD-Arduino驱动库的实现思路</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/pages/4033e3/#底层通信的接口实现" class="sidebar-link">底层通信的接口实现</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header level3"><a href="/pages/4033e3/#分析需求" class="sidebar-link">分析需求</a></li><li class="sidebar-sub-header level3"><a href="/pages/4033e3/#创造接口类" class="sidebar-link">创造接口类</a></li><li class="sidebar-sub-header level3"><a href="/pages/4033e3/#实现具体的接口" class="sidebar-link">实现具体的接口</a></li></ul></li></ul></section></li></ul> </aside> <div><main class="page"><div class="theme-vdoing-wrapper bg-style-1"><div class="articleInfo-wrap" data-v-06225672><div class="articleInfo" data-v-06225672><!----> <div class="info" data-v-06225672><div title="作者" class="author iconfont icon-touxiang" data-v-06225672><a href="https://github.com/HalfSweet" target="_blank" title="作者" class="beLink" data-v-06225672>HalfSweet</a></div> <div title="创建时间" class="date iconfont icon-riqi" data-v-06225672><a href="javascript:;" data-v-06225672>2023-04-13</a></div> <div title="分类" class="date iconfont icon-wenjian" data-v-06225672><a href="/categories/?category=%E6%97%A5%E5%B8%B8" data-v-06225672>日常 </a></div></div></div></div> <!----> <div class="content-wrapper"><div class="right-menu-wrapper"><div class="right-menu-margin"><div class="right-menu-title">目录</div> <div class="right-menu-content"></div></div></div> <h1><!---->HSEPD-Arduino驱动库的实现思路<!----></h1> <!----> <div class="theme-vdoing-content content__default"><p>闲的没事记录一下<a href="https://github.com/HalfSweet/HSEPD-Arduino" target="_blank" rel="noopener noreferrer">HSEPD<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>的重构过程，提醒自己每一步做了什么，同时也算是对于整个项目的一点介绍，希望大家喜欢。
+</p> <h2 id="底层通信的接口实现"><a href="#底层通信的接口实现" class="header-anchor">#</a> 底层通信的接口实现</h2> <h3 id="分析需求"><a href="#分析需求" class="header-anchor">#</a> 分析需求</h3> <p>不管是对于什么屏幕，我们都需要使用MCU向外发送/读取数据，当然读取的过程大部分情况下可以忽略，毕竟我们不指望从屏幕中读取到什么。但是通信的方式不一而足，例如常见的串口屏使用的SPI就有<code>3-wire SPI</code>与<code>4-wire SPI</code>的选择，其区别仅仅只是在<code>3-wire SPI</code>中使用的是9bit通信，最高位的0和1分别对应<code>命令</code>和<code>数据</code>。并且哪怕是SPI，也有硬件和软件SPI的区分，理论上来说使用硬件SPI当然是最好的，但是在一些情况下我们无法使用硬件，那也只能选择软件SPI了。</p> <p>但是我们在驱动中，显然是不关心具体的通信方式，我们只需要知道发送了什么命令或者什么数据即可，因此我们首先需要将通信的接口给抽象出来。</p> <h3 id="创造接口类"><a href="#创造接口类" class="header-anchor">#</a> 创造接口类</h3> <p>对于一般的屏幕来说，我们需要发送的只有两类数据，分别为<code>命令</code>和<code>数据</code>。通俗一点来说，<code>命令</code>就相当于一个寄存器的地址，<code>数据</code>相当于寄存器里面的内容，我们需要先发送命令再发送数据，并且一个命令下可以有多个数据。一些命令并不需要数据，只要是发送便代表相应的功能。并且有时候我们会有这么一个需求：在一个命令中需要发送多个数据，一次性发完。因此我们写出了如下的一个总线接口类：</p> <div class="language-cpp line-numbers-mode"><pre class="language-cpp"><code><span class="token keyword">class</span> <span class="token class-name">HSEPD_BUS</span> <span class="token comment">// 在这个类中仅仅实现数据总线的接口</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+<span class="token keyword">protected</span><span class="token operator">:</span>
+    <span class="token keyword">int32_t</span> _speed<span class="token punctuation">;</span> <span class="token comment">// 通信的速度</span>
+
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">HSEPD_BUS</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">~</span><span class="token function">HSEPD_BUS</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * @brief 写1个字节的数据
+     *
+     * @param value 需要写入的数据
+     */</span>
+    <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">Write</span><span class="token punctuation">(</span><span class="token keyword">uint8_t</span> value<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * @brief 写1个字节的命令
+     *
+     * @param command 需要写入的命令
+     */</span>
+    <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">WriteCommand</span><span class="token punctuation">(</span><span class="token keyword">uint8_t</span> command<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * @brief 写1个字节的数据
+     *
+     * @param data 需要写入的数据
+     */</span>
+    <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">WriteData</span><span class="token punctuation">(</span><span class="token keyword">uint8_t</span> data<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * @brief 写dataLen个字节的数据
+     * 
+     * @param data 需要写入的数组首地址
+     * @param dataLen 需要写入的数组的总长度
+     */</span>
+    <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">WriteBytes</span><span class="token punctuation">(</span><span class="token keyword">uint8_t</span> <span class="token operator">*</span>data<span class="token punctuation">,</span> <span class="token keyword">uint8_t</span> dataLen<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * @brief 写1个字节的命令，以及Datalen - 1个字节的数据
+     *
+     * @param value 需要写入的数组首地址
+     * @param dataLen 需要写入的数组的总长度
+     */</span>
+    <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">WriteCMDDATA</span><span class="token punctuation">(</span><span class="token keyword">uint8_t</span> <span class="token operator">*</span>value<span class="token punctuation">,</span> <span class="token keyword">uint8_t</span> dataLen<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * @brief 读取1个字节的数据
+     *
+     * @return uint8_t 读取的数据
+     */</span>
+    <span class="token keyword">virtual</span> <span class="token keyword">uint8_t</span> <span class="token function">Read</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * @brief 写入1个字节的命令，并读取1个字节的数据
+     *
+     * @param command 需要写入的命令
+     * @return uint8_t 读取到的数据
+     */</span>
+    <span class="token keyword">virtual</span> <span class="token keyword">uint8_t</span> <span class="token function">ReadData</span><span class="token punctuation">(</span><span class="token keyword">uint8_t</span> command<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * @brief 写入1个字节的命令，并读取dataLen - 1字节的数据
+     *
+     * @param command 需要写入的命令
+     * @param dataLen  需要读取的数据长度
+     * @param data 需要读取的数据数组指针
+     */</span>
+    <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">ReadData</span><span class="token punctuation">(</span><span class="token keyword">uint8_t</span> command<span class="token punctuation">,</span> <span class="token keyword">uint8_t</span> dataLen<span class="token punctuation">,</span> <span class="token keyword">uint8_t</span> <span class="token operator">*</span>data<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br></div></div><h3 id="实现具体的接口"><a href="#实现具体的接口" class="header-anchor">#</a> 实现具体的接口</h3> <p>在上面我们已经创造出了一个接口类，并且采用了纯虚函数的定义，这就意味着我们需要编写一个具体的类去重载这些虚函数，这样才能发挥具体的功能。因此我们在<code>src/Bus/</code>目录下创造了一个新的目录，我们取名为<code>ESP8266SoftSPI</code>，从名字上不难看出是ESP8266芯片的软件SPI实现。</p> <p>具体的代码不多赘述，可以参考原仓库，总之目的是把接口的虚函数进行重载，实现具体的功能。</p> <p>但是这里我们需要注意一点，<code>ESP8266SoftSPI</code>的构造函数的参数和<code>HSEPD_BUS</code>的不同，我们在其构造函数的参数列表中指定了具体的引脚编号，这样我们就可以通过<code>ESP8266SoftSPI bus(dc, busy, cs, sck, mosi)</code>的方式进行构造指定具体的IO。同时我们也发现，使用这样的方式可以做到硬件解耦，不同的类可以有不同的构造方式，但是我们都可以从基类的<code>HSEPD_BUS</code>进行访问抽象出来的方法，而不需要再关系具体的实现细节。</p></div></div> <!----> <div class="page-edit"><div class="edit-link"><a href="https://github.com/HalfSweet/Blog/edit/main/docs/_posts/HSEPD-Arduino驱动库的实现思路.md" target="_blank" rel="noopener noreferrer">编辑</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">2023/04/13, 22:19:57</span></div></div> <div class="page-nav-wapper"><!----> <!----></div></div> <div class="article-list"><div class="article-title"><a href="/archives" class="iconfont icon-bi">最近更新</a></div> <div class="article-wrapper"><dl><dd>01</dd> <dt><a href="/posts/SEGGER-RTT/"><div>
+            更高效的日志查看方式——使用SEGGER-RTT
+            <!----></div></a> <span class="date">05-06</span></dt></dl><dl><dd>02</dd> <dt><a href="/posts/STC_CoreMark/"><div>
+            不服来跑个分？将CoreMark移植到STC上试试
+            <!----></div></a> <span class="date">04-14</span></dt></dl><dl><dd>03</dd> <dt><a href="/posts/embedded_fmtlib/"><div>
+            在嵌入式设备上使用fmtlib
+            <!----></div></a> <span class="date">02-03</span></dt></dl> <dl><dd></dd> <dt><a href="/archives" class="more">更多文章&gt;</a></dt></dl></div></div></main></div> <div class="footer"><div class="icons"><a href="halfsweet@halfsweet.cn" title="发邮件" target="_blank" class="iconfont icon-youjian"></a><a href="https://github.com/HalfSweet" title="GitHub" target="_blank" class="iconfont icon-github"></a><a href="https://twitter.com/_HalfSweet" title="Twitter" target="_blank" class="iconfont icon-twitter"></a></div> 
+  Theme by
+  <a href="https://github.com/xugaoyi/vuepress-theme-vdoing" target="_blank" title="本站主题">Vdoing</a> 
+    | Copyright © 2022-2023
+    <span>HalfSweet | <a href="https://github.com/HalfSweet/Blog/blob/main/LICENSE" target="_blank">CC-BY-SA-4.0 License</a> <br> <a href="https://beian.miit.gov.cn/#/Integrated/index">黔ICP备2021007368号</a> </br></span></div> <div class="buttons"><div title="返回顶部" class="button blur go-to-top iconfont icon-fanhuidingbu" style="display:none;"></div> <div title="去评论" class="button blur go-to-comment iconfont icon-pinglun" style="display:none;"></div> <div title="主题模式" class="button blur theme-mode-but iconfont icon-zhuti"><ul class="select-box" style="display:none;"><li class="iconfont icon-zidong">
+          跟随系统
+        </li><li class="iconfont icon-rijianmoshi">
+          浅色模式
+        </li><li class="iconfont icon-yejianmoshi">
+          深色模式
+        </li><li class="iconfont icon-yuedu">
+          阅读模式
+        </li></ul></div></div> <div class="body-bg" style="background:url() center center / cover no-repeat;opacity:0.5;"></div> <!----> <!----></div><div class="global-ui"><div></div></div></div>
+    <script src="/assets/js/app.1afa087c.js" defer></script><script src="/assets/js/2.eb2c3b01.js" defer></script><script src="/assets/js/17.0ae85586.js" defer></script>
+  </body>
+</html>
