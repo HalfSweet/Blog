@@ -1,31 +1,19 @@
 {
-  "name": "theme-vdoing-blog",
+  "name": "halfsweet-blog",
   "version": "1.0.0",
+  "description": "HalfSweet's blog",
+  "license": "CC BY-SA 4.0",
+  "type": "module",
   "scripts": {
-    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && node --max_old_space_size=4096 ./node_modules/vuepress/cli.js dev docs",
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && node --max_old_space_size=4096 ./node_modules/vuepress/cli.js build docs",
-    "deploy": "bash deploy.sh",
-    "editFm": "node utils/editFrontmatter.js",
-    "baiduPush": "node utils/baiduPush.js https://halfsweet.cn && bash baiduPush.sh",
-    "publish": "cd ./vdoing && npm publish && cd .. && yarn updateTheme",
-    "updateTheme": "yarn remove vuepress-theme-vdoing && rm -rf node_modules && yarn && yarn add vuepress-theme-vdoing -D"
+    "docs:build": "vuepress build src",
+    "docs:clean-dev": "vuepress dev src --clean-cache",
+    "docs:dev": "vuepress dev src",
+    "docs:update-package": "pnpm dlx vp-update"
   },
-  "license": "CC-BY-SA-4.0",
   "devDependencies": {
-    "dayjs": "^1.9.7",
-    "inquirer": "^7.1.0",
-    "json2yaml": "^1.1.0",
-    "vuepress": "1.9.5",
-    "vuepress-plugin-baidu-autopush": "^1.0.1",
-    "vuepress-plugin-baidu-tongji": "^1.0.1",
-    "vuepress-plugin-comment": "^0.7.3",
-    "vuepress-plugin-demo-block": "^0.7.2",
-    "vuepress-plugin-fulltext-search": "^2.2.1",
-    "vuepress-plugin-one-click-copy": "^1.0.2",
-    "vuepress-plugin-sitemap": "^2.3.1",
-    "vuepress-plugin-thirdparty-search": "^1.0.2",
-    "vuepress-plugin-zooming": "^1.1.7",
-    "vuepress-theme-vdoing": "^1.12.8",
-    "yamljs": "^0.3.0"
+    "@vuepress/client": "2.0.0-beta.66",
+    "vue": "^3.3.4",
+    "vuepress": "2.0.0-beta.66",
+    "vuepress-theme-hope": "2.0.0-beta.233"
   }
 }
