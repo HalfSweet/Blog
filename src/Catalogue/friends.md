@@ -12,7 +12,9 @@ author:
 ---
 
 ## 友情链接
+
 这是一个友链页面，欢迎大家私聊我或者评论留言添加自己的友链，留言的话需要以下内容：
+
 > * 你的名称
 > * 你的博客链接
 > * 你的一段简介（可选）
@@ -30,7 +32,7 @@ color: rgba(253, 230, 138, 0.15)
 title: T0kenZero
 desc: 一只鸽子咕咕咕
 logo: https://img13.360buyimg.com/ddimg/jfs/t1/172011/22/17602/107398/61421471Eae8931a3/26d7779ad9c8d727.jpg
-link: https://n2do.net/
+link: https://blog.lenxy.net/
 color: rgba(253, 230, 138, 0.15)
 ```
 
