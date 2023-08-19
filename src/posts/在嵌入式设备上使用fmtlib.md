@@ -15,6 +15,8 @@ tag:
 author: 
   name: HalfSweet
   link: https://github.com/HalfSweet
+
+order: 3
 ---
 
 众所周知，在c++20以上的标准已经支持了`std::format`进行格式化输出，不过显而易见，嵌入式领域想要得到支持显然遥遥无期。但是我们已经厌倦了使用sprintf等方式来格式化字符串，c++的流特性又显得不够优雅，怎么才能用上类似于Python中format这样的方式来格式化并输出想要的字符串呢。
