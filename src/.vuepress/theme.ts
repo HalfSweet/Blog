@@ -52,11 +52,15 @@ export default hopeTheme({
   plugins: {
     blog: true,
 
-    // comment: {
-    //   // You should generate and use your own comment service
-    //   provider: "Waline",
-    //   serverURL: "https://waline-comment.vuejs.press",
-    // },
+    comment: {
+      provider: "Giscus",
+      repo: "HalfSweet/Blog",
+      repoId: "R_kgDOIWC9qQ",
+      category: "comment",
+      categoryId: "DIC_kwDOIWC9qc4CYtVz",
+      mapping: "pathname",
+      lazyLoading: false,
+    },
 
     // all features are enabled for demo, only preserve features you need here
     mdEnhance: {
