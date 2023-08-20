@@ -79,7 +79,7 @@ color: rgba(253, 230, 138, 0.15)
 ```card
 title: 云上小筑
 desc: 我 24岁，事学生 
-logo: https://blog.mzy7.cn/images/logo.jpg
+logo: https://blog.mzy7.cn/images/avatar.jpg
 link: https://blog.mzy7.cn/
 color: rgba(253, 230, 138, 0.15)
 ```
