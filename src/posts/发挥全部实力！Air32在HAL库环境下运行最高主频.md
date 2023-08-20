@@ -1,5 +1,5 @@
 ---
-title: 发挥全部实力！Air32在HAL库环境下运行最高主频
+title: 发挥全部实力！Air32 在 HAL 库环境下运行最高主频
 date: 2023-08-20 20:30:00
 permalink: /posts/Air32-HAL-HighFreq/
 category:
@@ -12,16 +12,16 @@ author:
   name: HalfSweet
   link: https://github.com/HalfSweet
 
-order: 6
+order: 7
 ---
 
-最近打算把Air32也吃上Arduino，发挥全部性能，就不用像是Air001那样束手束脚了，但是问题是Arduino的库是基于HAL的，那要用上Arduino就必定得先适配HAL库，那我们就来先尝试在HAL下让Air32跑到最高主频吧。
+最近打算把 Air32 也吃上 Arduino，发挥全部性能，就不用像是 Air001 那样束手束脚了，但是问题是 Arduino 的库是基于 HAL 的，那要用上 Arduino 就必定得先适配 HAL 库，那我们就来先尝试在 HAL 下让 Air32 跑到最高主频吧。
 
 <!-- more -->
 
 ## 初始化工程
 
-首先我们需要先初始化一个工程，就单纯点灯和和串口打印，这里我偷懒用了`STM32CubeMX`，我们勾上串口和外部时钟，为了方便我们顺便把SWD也选上。大概就是这样
+首先我们需要先初始化一个工程，就单纯点灯和和串口打印，这里我偷懒用了`STM32CubeMX`，我们勾上串口和外部时钟，为了方便我们顺便把 SWD 也选上。大概就是这样
 
 ![CubeMX](../.vuepress/public/img/2023-08-20-20-27-46.png)
 
@@ -29,7 +29,7 @@ order: 6
 
 ## 修改时钟
 
-因为我们要跑高主频，原先的PLL倍频数不满足，用到了新的一些配置，因此我们需要修改芯片头文件以及`hal_rcc_ex.h`中的一些宏定义，首先是芯片的头文件，我们这里以`air32f103xb.h`为例，我们需要修改的地方如下
+因为我们要跑高主频，原先的 PLL 倍频数不满足，用到了新的一些配置，因此我们需要修改芯片头文件以及`hal_rcc_ex.h`中的一些宏定义，首先是芯片的头文件，我们这里以`air32f103xb.h`为例，我们需要修改的地方如下
 
 ```c
 #define RCC_CFGR_PLLMULL16_Pos               (19U)                             
@@ -78,7 +78,7 @@ order: 6
 
 ![](../.vuepress/public/img/2023-08-20-20-37-09.png)
 
-然后修改`main.c`中的`SystemClock_Config`函数，把PLL的倍频修改为`RCC_PLL_MUL32`，这样就可以跑到256M了。
+然后修改`main.c`中的`SystemClock_Config`函数，把 PLL 的倍频修改为`RCC_PLL_MUL32`，这样就可以跑到 256M 了。
 
 ```c
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -113,7 +113,7 @@ order: 6
   }
 ```
 
-但是事情远没有那么简单，Air32作为典型的国产MCU，那必然是存在很多暗坑，我们查看提供的标准库的RCC例程，发现需要进行一个“解锁”操作。那我们依葫芦画瓢，在`air32f1xx_hal_rcc.c`中的`HAL_RCC_OscConfig`函数中728行左右添加这么几段：
+但是事情远没有那么简单，Air32 作为典型的国产 MCU，那必然是存在很多暗坑，我们查看提供的标准库的 RCC 例程，发现需要进行一个“解锁”操作。那我们依葫芦画瓢，在`air32f1xx_hal_rcc.c`中的`HAL_RCC_OscConfig`函数中 728 行左右添加这么几段：
 
 ```c
           /* Set PREDIV1 Value */
@@ -124,23 +124,23 @@ order: 6
         /* Configure the main PLL clock source and multiplication factors. */
         /* __HAL_RCC_PLL_CONFIG(RCC_OscInitStruct->PLL.PLLSource,
                              RCC_OscInitStruct->PLL.PLLMUL); */
-        *(volatile uint32_t *)(0x400210F0) = 1;//开启sys_cfg门控
+        *(volatile uint32_t *)(0x400210F0) = 1;//开启 sys_cfg 门控
 	    *(volatile uint32_t *)(0x40016C00) = 0xa7d93a86;//解一、二、三级锁
 	    *(volatile uint32_t *)(0x40016C00) = 0xab12dfcd;
 	    *(volatile uint32_t *)(0x40016C00) = 0xcded3526;
-	    *(volatile uint32_t *)(0x4002228C) = 0xa5a5a5a5;//QSPI解锁
+	    *(volatile uint32_t *)(0x4002228C) = 0xa5a5a5a5;//QSPI 解锁
 
-        // 默认Flash读取等待时间为2个CPU周期
+        // 默认 Flash 读取等待时间为 2 个 CPU 周期
         AIR32F1_SysFreq_Set(RCC_OscInitStruct->PLL.PLLMUL,FLASH_Div_2 ,0,1);
 
         RCC->CFGR |= RCC_OscInitStruct->PLL.PLLSource;
 
         //恢复配置前状态
-        *(volatile uint32_t *)(0x400210F0) = 0;//开启sys_cfg门控
+        *(volatile uint32_t *)(0x400210F0) = 0;//开启 sys_cfg 门控
         *(volatile uint32_t *)(0x40016C00) = ~0xa7d93a86;//加一、二、三级锁
         *(volatile uint32_t *)(0x40016C00) = ~0xab12dfcd;
         *(volatile uint32_t *)(0x40016C00) = ~0xcded3526;
-        *(volatile uint32_t *)(0x4002228C) = ~0xa5a5a5a5;//QSPI解锁
+        *(volatile uint32_t *)(0x4002228C) = ~0xa5a5a5a5;//QSPI 解锁
 
         /* Enable the main PLL. */
         __HAL_RCC_PLL_ENABLE();
@@ -173,15 +173,15 @@ typedef enum
 
 ## 修改`HAL_RCC_GetSysClockFreq`
 
-现在我们可以成功拉高主频了，但是HAL库内部用的`HAL_RCC_GetSysClockFreq`函数来获取主频，如果主频不对那其它外设的分频也会出问题，最典型的就是串口输出乱码。
+现在我们可以成功拉高主频了，但是 HAL 库内部用的`HAL_RCC_GetSysClockFreq`函数来获取主频，如果主频不对那其它外设的分频也会出问题，最典型的就是串口输出乱码。
 
-我们查看Air32的参考手册，发现与STM32相比，其PLL的倍频寄存器是5个bit，比STM32多一个bit，但是很难受的是多的那个bit是在高位且和其它的不连续。
+我们查看 Air32 的参考手册，发现与 STM32 相比，其 PLL 的倍频寄存器是 5 个 bit，比 STM32 多一个 bit，但是很难受的是多的那个 bit 是在高位且和其它的不连续。
 
 ![Air32](../.vuepress/public/img/2023-08-20-20-55-58.png)
 
 ![STM32](../.vuepress/public/img/2023-08-20-20-56-16.png)
 
-因此我们需要单独判断这个bit，如果为0的情况下和STM32的行为一致，如果为1的情况下，我们需要手动转换一下。
+因此我们需要单独判断这个 bit，如果为 0 的情况下和 STM32 的行为一致，如果为 1 的情况下，我们需要手动转换一下。
 
 首先我们修改`aPLLMULFactorTable`数组，把缺失的几个倍频值补上。
 
@@ -201,12 +201,12 @@ typedef enum
 #endif
 ```
 
-然后我们稍微修改下计算倍频的代码，在大约1134行的地方修改为
+然后我们稍微修改下计算倍频的代码，在大约 1134 行的地方修改为
 
 ```c
     case RCC_SYSCLKSOURCE_STATUS_PLLCLK:  /* PLL used as system clock */
     {
-      uint32_t pllMul4 = 0; // PLL MUL的第5个字节
+      uint32_t pllMul4 = 0; // PLL MUL 的第 5 个字节
       pllMul4 = tmpreg & (1UL << 28);
       if(pllMul4 == 0)
       {
@@ -223,7 +223,7 @@ typedef enum
 
 ## 修改串口分频定义宏
 
-此时理论上来说已经可以正常工作，但是我们会发现串口输出还是乱码，这是因为HAL库中串口的分频计算可能会溢出。我们打开`air32f1xx_hal_uart.h`中的第839行，把原来的
+此时理论上来说已经可以正常工作，但是我们会发现串口输出还是乱码，这是因为 HAL 库中串口的分频计算可能会溢出。我们打开`air32f1xx_hal_uart.h`中的第 839 行，把原来的
 
 ```c
 #define UART_DIV_SAMPLING16(_PCLK_, _BAUD_)            (((_PCLK_)*25U)/(4U*(_BAUD_)))
@@ -235,11 +235,11 @@ typedef enum
 #define UART_DIV_SAMPLING16(_PCLK_, _BAUD_)            ((_PCLK_)/(4U*(_BAUD_))*25U)
 ```
 
-至此，HAL库需要修改的内容已经完成。
+至此，HAL 库需要修改的内容已经完成。
 
-## 添加Printf输出
+## 添加 Printf 输出
 
-为了避免原生的Printf问题，我们自己定义一个`MyPrintf`函数，其定义如下：
+为了避免原生的 Printf 问题，我们自己定义一个`MyPrintf`函数，其定义如下：
 
 ```c
 int MyPrintf(const char* format, ...)
@@ -305,8 +305,8 @@ int main(void)
 
 ![](../.vuepress/public/img/2023-08-20-21-04-35.png)
 
-串口输出无乱码，主频正确，我们已经成功在HAL中跑到了最高主频。
+串口输出无乱码，主频正确，我们已经成功在 HAL 中跑到了最高主频。
 
 ## 附录
 
-本文的工程开源在<>，用到的HAL库源码在<>。
+本文的工程开源在<>，用到的 HAL 库源码在<>。
