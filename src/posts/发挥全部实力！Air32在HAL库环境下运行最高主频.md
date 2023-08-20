@@ -309,4 +309,4 @@ int main(void)
 
 ## 附录
 
-本文的工程开源在<>，用到的 HAL 库源码在<>。
+本文的工程开源在<https://github.com/Air-duino/Air32F103-HAL-RCC>，用到的 HAL 库源码在<https://github.com/Air-duino/Arduino-Air32F103-Drivers>。
