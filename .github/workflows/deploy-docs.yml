@@ -49,10 +49,11 @@ jobs:
           folder: src/.vuepress/dist
 
       - name: OSS同步
-        uses: manyuanrong/setup-ossutil@v2.0
+        uses: yizhoumo/setup-ossutil@v1
         with:
           endpoint: ${{ secrets.OSS_ENDPOINT }}
           access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
           access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+          ossutil-version: '1.7.14'
       - run: |
           ossutil cp -r -f -u src/.vuepress/dist oss://${{ secrets.OSS_BUCKET }} 
