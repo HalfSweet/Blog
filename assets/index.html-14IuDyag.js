@@ -1,1 +1,0 @@
-import{_ as t}from"./plugin-vue_export-helper-x3n3nnut.js";import{o,c as n,a as e}from"./app-e2eowxEg.js";const _={},c=e("p",null,"今天搭建好了属于自己的一个博客站，希望今后能保持记录的习惯，写下自己遇到的坑以及收获。这是博客的一个启程，也是自己的一个新起点。",-1),s=e("p",null,"Hello, HalfSweet!",-1),l=[c,s];function r(a,i){return o(),n("div",null,l)}const m=t(_,[["render",r],["__file","index.html.vue"]]);export{m as default};
