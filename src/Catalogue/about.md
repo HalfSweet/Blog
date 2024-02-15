@@ -37,7 +37,7 @@ _TODO_
 ## 联系方式
 * [QQ: 2522182733](http://wpa.qq.com/msgrd?v=3&uin=2522182733&site=qq&menu=yes)
 
-* [QQ群: 674467197](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=tmX7IRtkMq7z3mxeoHEKIc0MSsLBUyOW&authKey=3VYpwwyzfPfztnK0yQaeD35ED1ZwCXspr5b%2FNjpOQaXzJAUU%2FTgCR8ruyPiXjP4T&noverify=0&group_code=674467197)
+* [QQ群: 490953159](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=EI7O0ESVK0EsN_wbWI-PHzp2fhvnxrwm&authKey=U06sfHY23isq%2B%2F5%2B4R%2FV%2BEAS0OS%2Fk1ft394WCehaZ4FhHJwQW0KYfWYGvDoTerl5&noverify=0&group_code=490953159)
 
 * <a href="mailto:HalfSweet@HalfSweet.cn">邮箱：HalfSweet@HalfSweet.cn</a>
 
