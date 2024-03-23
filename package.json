@@ -11,18 +11,18 @@
     "docs:update-package": "pnpm dlx vp-update"
   },
   "devDependencies": {
-    "@vuepress/client": "2.0.0-rc.0",
-    "vue": "^3.4.5",
-    "vuepress": "2.0.0-rc.0",
-    "vuepress-theme-hope": "2.0.0-rc.10"
+    "vue": "^3.4.21",
+    "vuepress": "2.0.0-rc.8",
+    "vuepress-theme-hope": "2.0.0-rc.31"
   },
   "dependencies": {
-    "@vue/repl": "^3.2.0",
-    "chart.js": "^4.4.1",
-    "echarts": "^5.4.3",
+    "@vue/repl": "^4.1.0",
+    "@vuepress/bundler-vite": "2.0.0-rc.8",
+    "chart.js": "^4.4.2",
+    "echarts": "^5.5.0",
     "flowchart.ts": "^3.0.0",
     "katex": "^0.16.9",
-    "mermaid": "^10.6.1",
-    "reveal.js": "^5.0.4"
+    "mermaid": "^10.9.0",
+    "reveal.js": "^5.0.5"
   }
 }
