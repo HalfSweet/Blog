@@ -1,7 +1,7 @@
 ---
 title: 嵌入式中的 CI/CD
 date: 2024-01-07 12:30:00
-permalink: /posts/Empedded-CI-CD
+permalink: /posts/Empedded-CI-CD/
 category:
   - 单片机
 tag:
