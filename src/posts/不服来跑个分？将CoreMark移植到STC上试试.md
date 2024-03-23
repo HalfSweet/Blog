@@ -13,7 +13,6 @@ author:
   name: HalfSweet
   link: https://github.com/HalfSweet
 
-order: 4
 ---
 
 最近维护的 Air001 准备上线了，为了衬托出其强大的性价比，因此我想来做点~~缺德~~的事，让我们来和同样以高打性价比的 STC 系列单片机来对比下 CoreMark 的跑分吧，本文将会详细介绍移植过程以及跑分结果。测试的 MCU 为`降龙棍 STC32G12K128`与`打狗棒 STC8H8K64U`。

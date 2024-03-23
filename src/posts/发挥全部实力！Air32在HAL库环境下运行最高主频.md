@@ -12,7 +12,6 @@ author:
   name: HalfSweet
   link: https://github.com/HalfSweet
 
-order: 7
 ---
 
 最近打算把 Air32 也吃上 Arduino，发挥全部性能，就不用像是 Air001 那样束手束脚了，但是问题是 Arduino 的库是基于 HAL 的，那要用上 Arduino 就必定得先适配 HAL 库，那我们就来先尝试在 HAL 下让 Air32 跑到最高主频吧。

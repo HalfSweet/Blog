@@ -12,7 +12,6 @@ author:
   name: HalfSweet
   link: https://github.com/HalfSweet
 
-order: 6
 ---
 
 今日，在千呼万唤中，Arm 的 MDK6 桌面端终于出来了，本想作为第一批吃螃蟹的开发者，但是当时 Air32 和 Air001 的烧录均有问题，最后在 Arm 官方的支持下，终于可以正常使用了，那么现在我们就来尝试一下。

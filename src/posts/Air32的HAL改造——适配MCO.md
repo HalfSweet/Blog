@@ -11,8 +11,6 @@ tag:
 author: 
   name: HalfSweet
   link: https://github.com/HalfSweet
-
-order: 8
 ---
 
 在 [上篇文章](/posts/Air32-HAL-HighFreq/) 中，我们把 HAL 库移植给了 Air32，那现在让我们尝试添加一些 HAL 库特有的功能吧，比如这篇文章中描述的`MCO`。

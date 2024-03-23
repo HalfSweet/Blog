@@ -12,7 +12,6 @@ author:
   name: HalfSweet
   link: https://github.com/HalfSweet
 
-order: 10
 ---
 
 对于传统的嵌入式开发来说，我们一般常用的IDE都是诸如Keil、IAR等。这些IDE在方便了我们的开发的同时，也存在很多问题，例如在之前Keil-MDK5是不能跨平台的，仅限在Windows平台运行，并且它的授权也是一个老大难的问题。这样我们在团队协作的时候往往就会遇到很多问题，无法像是互联网的开发那样有一套完整的CI/CD流程。但是MDK6的更新解决了这个问题，第一它是跨平台的，这样在Windows、Linux以及MacOS上都能运行；并且也支持了很多命令行的操作，避免了繁琐的GUI操作，这样也更有利于自动化脚本的编写。
