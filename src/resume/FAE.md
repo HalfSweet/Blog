@@ -28,7 +28,7 @@ article: false
 - 有 FAE 经验优先。
 - 有良好的英文阅读能力
 - 熟悉模拟/数字电路和电路分析。
-- 精通一种 PCB 设计软件，如（AD、Cadence、KiCAD等）
+- 熟悉一种 PCB 设计软件，如（AD、Cadence、KiCAD等）
 - 掌握 C/C++ 语言。
 - 掌握至少一种脚本语言（Python/Bash/Lua）。
 - 能熟练使用 Git 或者其它版本控制工具。
