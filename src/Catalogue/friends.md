@@ -7,8 +7,8 @@ article: false
 comment: true
 editLink: true
 author: 
-  title: HalfSweet
-  link: https://github.com/HalfSweet
+  name: HalfSweet
+  url: https://github.com/HalfSweet
 ---
 
 ## 友情链接
