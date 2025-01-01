@@ -70,7 +70,7 @@ export default hopeTheme({
         "BiliBili",
         "CodePen",
         "PDF",
-        "Replit",
+        // "Replit",
         "Share",
         "SiteInfo",
         "StackBlitz",

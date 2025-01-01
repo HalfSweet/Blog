@@ -11,23 +11,23 @@
     "docs:update-package": "pnpm dlx vp-update"
   },
   "devDependencies": {
-    "vue": "^3.4.21",
-    "vuepress": "2.0.0-rc.8",
-    "vuepress-theme-hope": "2.0.0-rc.31"
+    "vue": "^3.5.13",
+    "vuepress": "2.0.0-rc.19",
+    "vuepress-theme-hope": "2.0.0-rc.66"
   },
   "dependencies": {
-    "@vue/repl": "^4.1.0",
-    "@vuepress/bundler-vite": "2.0.0-rc.8",
-    "artplayer": "^5.1.1",
-    "chart.js": "^4.4.2",
+    "@vue/repl": "^4.4.2",
+    "@vuepress/bundler-vite": "2.0.0-rc.19",
+    "artplayer": "^5.2.1",
+    "chart.js": "^4.4.7",
     "dashjs": "^4.7.4",
-    "echarts": "^5.5.0",
-    "flowchart.ts": "^3.0.0",
-    "hls.js": "^1.5.7",
-    "katex": "^0.16.9",
-    "mermaid": "^10.9.0",
-    "mpegts.js": "^1.7.3",
-    "reveal.js": "^5.0.5",
-    "vidstack": "^1.9.0"
+    "echarts": "^5.6.0",
+    "flowchart.ts": "^3.0.1",
+    "hls.js": "^1.5.18",
+    "katex": "^0.16.19",
+    "mermaid": "^11.2.0",
+    "mpegts.js": "^1.8.0",
+    "reveal.js": "^5.1.0",
+    "vidstack": "^1.12.12"
   }
 }
