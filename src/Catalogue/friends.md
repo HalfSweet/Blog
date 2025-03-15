@@ -96,7 +96,7 @@ author:
   title="Canmi"
   desc="喵喵本喵"
   logo="https://raw.githubusercontent.com/Canmi21/Canmi21.github.io/main/img/Canmi.png"
-  link="https://canmi21.github.io/"
+  link="https://arc.canmi.icu/"
   background="rgba(253, 230, 138, 0.15)"
 />
 
