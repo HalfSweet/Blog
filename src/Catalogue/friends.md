@@ -107,3 +107,19 @@ author:
   link="https://qff233.com/"
   background="rgba(253, 230, 138, 0.15)"
 />
+
+<VPCard
+  title="Kokuyu"
+  desc="=⩌⩊⩌=."
+  logo="https://kokuyu.top/images/avatar.webp"
+  link="https://kokuyu.top"
+  background="rgba(253, 230, 138, 0.15)"
+/>
+
+<VPCard
+  title="Snow"
+  desc="=爬起仅仅是因为不想输="
+  logo="https://xhblog.top/img/724d7fb480c8ac0db472ca5c7e36d239.jpg"
+  link="https://xhblog.top/"
+  background="rgba(253, 230, 138, 0.15)"
+/>
